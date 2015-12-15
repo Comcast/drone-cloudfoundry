@@ -1,0 +1,24 @@
+build:
+  image: golang:1.5
+  commands:
+    - make deps
+    - make build
+    - make test
+
+publish:
+  docker:
+    username: drone
+    password: $$DOCKER_PASS
+    email: $$DOCKER_EMAIL
+    repo: plugins/drone-cloudfoundry
+    when:
+      branch: master
+
+plugin:
+  name: Cloud Foundry
+  desc: Deploys or updates a project on Cloud Foundry
+  type: deploy
+  image: plugins/drone-cloudfoundry
+  labels:
+    - cloud
+    - foundry

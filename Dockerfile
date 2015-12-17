@@ -3,12 +3,9 @@
 #     cd $GOPATH/src/github.com/drone-plugins/drone-cloudfoundry
 #     make deps build docker
 
-FROM alpine:3.2
+FROM golang:1.5
 
-RUN apk update && \
-  apk add \
-    ca-certificates && \
-  rm -rf /var/cache/apk/*
-
+RUN go get github.com/cloudfoundry/cli/main
+RUN go build -o /bin/cf github.com/cloudfoundry/cli/main
 ADD drone-cloudfoundry /bin/
 ENTRYPOINT ["/bin/drone-cloudfoundry"]

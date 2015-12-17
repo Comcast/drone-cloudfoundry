@@ -37,10 +37,10 @@ func main() {
   fmt.Println(vargs)
   var cmd *exec.Cmd
   cmd = login(vargs)
-  fmt.Println(strings.Join(cmd.Args, " "))
   run(*cmd)
 
   cmd = exec.Command("cf", "push")
+  fmt.Println(strings.Join(cmd.Args, " "))
   run(*cmd)
 
 }

@@ -6,16 +6,7 @@
 FROM alpine:3.2
 
 RUN apk update && apk add ca-certificates
-RUN apk add go git
-
-ENV GOOS=linux
-ENV GOARCH=amd64
-ENV CGO_ENABLED=0
-ENV GOPATH=/go
-
-RUN mkdir /go
-RUN go get github.com/cloudfoundry/cli/main
-RUN go build -o /bin/cf github.com/cloudfoundry/cli/main
-
+RUN rm -rf /var/cache/apk/*
+ADD cf /bin/
 ADD drone-cloudfoundry /bin/
 ENTRYPOINT ["/bin/drone-cloudfoundry"]

@@ -34,15 +34,16 @@ func main() {
     fmt.Fprintln(os.Stderr, "required")
     os.Exit(1)
   }
-  fmt.Println(vargs)
   var cmd *exec.Cmd
+
+  // login
   cmd = login(vargs)
   run(*cmd)
 
+  // cf push
   cmd = exec.Command("cf", "push")
   fmt.Println(strings.Join(cmd.Args, " "))
   run(*cmd)
-
 }
 func run(cmd exec.Cmd) error {
   stdout, _ := cmd.StdoutPipe()

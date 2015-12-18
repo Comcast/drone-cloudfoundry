@@ -6,6 +6,7 @@ import (
 	"os"
 	"os/exec"
 
+	"github.com/drone/drone-go/drone"
 	"github.com/drone/drone-go/plugin"
 )
 
@@ -35,6 +36,8 @@ type CloudFoundry struct {
 
 func main() {
 	cfargs := CloudFoundry{}
+	workspace := drone.Workspace{}
+	plugin.Param("workspace", &workspace)
 	plugin.Param("vargs", &cfargs)
 	plugin.Parse()
 
@@ -44,7 +47,7 @@ func main() {
 
 	run(target(cfargs.Target))
 
-	run(deploy())
+	run(deploy(workspace))
 }
 
 // checks that a field has been set
@@ -83,10 +86,11 @@ func target(vargs Target) *exec.Cmd {
 }
 
 // cf deploy
-func deploy() *exec.Cmd {
+func deploy(workspace drone.Workspace) *exec.Cmd {
 	fmt.Println("Deploy")
-	return exec.Command("cf", "push")
-
+	cmd := exec.Command("cf", "push", workspace.Path)
+	cmd.Dir = workspace.Path
+	return cmd
 }
 
 // run runs a shell command

@@ -1,1 +1,1 @@
-shasum -a 256 .drone.yml
+drone secure --repo josh/drone-cloudfoundry --checksum

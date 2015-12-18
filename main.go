@@ -27,11 +27,43 @@ type API struct {
 	URI string `json:"api"`
 }
 
+// App information
+type App struct {
+	Name     string `json:"name"`
+	Manifest string `json:"manifest"`
+	Path     string `json:"path"`
+
+	Command   string `json:"command"`
+	Buildpack string `json:"buildpack"`
+	Disk      string `json:"disk"`
+	Memory    string `json:"memory"`
+	Instances int    `json:"instances"`
+}
+
+// Route information
+type Route struct {
+	Hostname    string `json:"hostname"`
+	RandomRoute bool   `json:"random-route"`
+	Domain      string `json:"domain"`
+	NoRoute     bool   `json:"no-route"`
+}
+
+// Flags toggle true/false
+type Flags struct {
+	SkipSSL    bool `json:"skip-ssl-validation"`
+	NoStart    bool `json:"no-start"`
+	NoHostname bool `json:"no-hostname"`
+	NoManifest bool `json:"no-manifest"`
+}
+
 // CloudFoundry plugin arguments
 type CloudFoundry struct {
 	API
 	Target
 	Credentials
+	Flags
+	Route
+	App
 }
 
 func main() {
@@ -47,7 +79,7 @@ func main() {
 
 	run(target(cfargs.Target))
 
-	run(deploy(workspace))
+	run(deploy(workspace, cfargs.App, cfargs.Route, cfargs.Flags))
 }
 
 // checks that a field has been set
@@ -86,11 +118,42 @@ func target(vargs Target) *exec.Cmd {
 }
 
 // cf deploy
-func deploy(workspace drone.Workspace) *exec.Cmd {
+func deploy(workspace drone.Workspace, app App, route Route, flags Flags) *exec.Cmd {
 	fmt.Println("Deploy")
-	cmd := exec.Command("cf", "push")
+	args := append(append([]string{"push", app.Name}, parseRoute(route)...), parseFlags(flags)...)
+	cmd := exec.Command("cf", args...)
 	cmd.Dir = workspace.Path
 	return cmd
+}
+func parseFlags(flags Flags) []string {
+	args := []string{}
+	if flags.NoStart {
+		args = append(args, "--no-start")
+	}
+	if flags.NoHostname {
+		args = append(args, "--no-hostname")
+	}
+	if flags.NoManifest {
+		args = append(args, "--no-manifest")
+	}
+	return args
+}
+
+func parseRoute(route Route) []string {
+	args := []string{}
+	if route.Domain != "" {
+		args = append(args, "-d", route.Domain)
+	}
+	if route.Hostname != "" {
+		args = append(args, "-n", route.Hostname)
+	}
+	if route.NoRoute {
+		args = append(args, "--no-route")
+	}
+	if route.RandomRoute {
+		args = append(args, "--random-route")
+	}
+	return args
 }
 
 // run runs a shell command

@@ -88,7 +88,7 @@ func target(vargs Target) *exec.Cmd {
 // cf deploy
 func deploy(workspace drone.Workspace) *exec.Cmd {
 	fmt.Println("Deploy")
-	cmd := exec.Command("cf", "push", workspace.Path)
+	cmd := exec.Command("cf", "push")
 	cmd.Dir = workspace.Path
 	return cmd
 }

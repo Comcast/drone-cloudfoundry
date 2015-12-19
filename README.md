@@ -5,8 +5,6 @@
 
 Drone plugin for deploying to Cloud Foundry
 
-See [DOCS.md](DOCS.md) for `.drone.yml` usage
-
 ## Usage
 
 ```

@@ -6,11 +6,9 @@ build:
     - GOARCH=amd64
     - CGO_ENABLED=0
   commands:
-    - go get
-    - go build
-    - go get github.com/cloudfoundry/cli/main
-    - go build -o cf github.com/cloudfoundry/cli/main
-    - go test
+    - make deps
+    - make build
+    - make test
 
 publish:
   docker:

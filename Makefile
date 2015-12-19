@@ -20,6 +20,9 @@ test:
 
 build:
 	go build -ldflags '-s -w $(LDFLAGS)'
+	go get github.com/cloudfoundry/cli/main
+	go get github.com/cloudfoundry/cli/main
+	go build -o cf github.com/cloudfoundry/cli/main
 
 docker:
 	docker build --rm=true -t plugins/drone-cloudfoundry .

@@ -17,7 +17,6 @@ deploy:
 
 ## Available options
 
-### Required
 | Option | Description | Example |
 | ------ | ----------- | ---- |
 | `api` (**required**) | Target API | `api.run.pivotal.io` |

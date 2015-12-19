@@ -15,7 +15,7 @@ deploy:
       branch: master
 ```
 
-## Available options
+### Options
 
 | Option | Description | Example |
 | ------ | ----------- | ---- |

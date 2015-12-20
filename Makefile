@@ -14,14 +14,13 @@ clean:
 
 deps:
 	go get -t ./...
+	go get github.com/cloudfoundry/cli/main
 
 test:
 	go test -cover ./...
 
 build:
 	go build -ldflags '-s -w $(LDFLAGS)'
-	go get github.com/cloudfoundry/cli/main
-	go get github.com/cloudfoundry/cli/main
 	go build -o cf github.com/cloudfoundry/cli/main
 
 docker:

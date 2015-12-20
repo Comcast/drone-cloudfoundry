@@ -19,7 +19,7 @@ func main() {
 	workspace := drone.Workspace{}
 	plugin.Param("workspace", &workspace)
 	plugin.Param("vargs", &cfargs)
-	plugin.Parse()
+	plugin.MustParse()
 
 	run(api(cfargs.API))
 

@@ -1,10 +1,5 @@
 build:
   image: golang:1.5
-  environment:
-    - GO15VENDOREXPERIMENT=0
-    - GOOS=linux
-    - GOARCH=amd64
-    - CGO_ENABLED=0
   commands:
     - make deps
     - make build

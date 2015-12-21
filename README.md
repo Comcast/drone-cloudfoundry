@@ -25,6 +25,27 @@ Drone plugin for deploying to Cloud Foundry
         "path": "/drone/src/github.com/drone/drone"
     },
     "vargs": {
+      "api": "api.run.pivotal.io",
+      "org": "my-org",
+      "space": "dev",
+      "user": "johndoe",
+      "password": "pa55word",
+      "name": "test-cf-deploy",
+      "manifest": "manifest.yml",
+      "path": ".",
+      "command": "npm start",
+      "buildpack": "nodejs",
+      "disk": "128",
+      "memory": "64",
+      "instances": 1,
+      "hostname": "",
+      "random-route": false,
+      "domain": "apps.pivotal.io",
+      "no-route": false,
+      "skip-ssl-validation": false,
+      "no-start": false,
+      "no-hostname": false,
+      "no-manifest": false
     }
 }
 EOF

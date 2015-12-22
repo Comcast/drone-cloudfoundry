@@ -20,5 +20,4 @@ plugin:
   type: deploy
   image: plugins/drone-cloudfoundry
   labels:
-    - cloud
-    - foundry
+    - paas

@@ -1,45 +1,37 @@
 package main
 
-import (
-	"os/exec"
+import "github.com/drone/drone-go/drone"
 
-	"github.com/drone/drone-go/drone"
-)
-
-// Target the API to execute against
-func api(api API) *exec.Cmd {
+// API to execute against
+func api(api API) []string {
 	uri := api.URI
 	require("api", uri)
-	return exec.Command("cf", "api", uri)
+	return []string{"api", uri}
 }
 
 // Login to cloud foundry
-func login(credentials Credentials) *exec.Cmd {
+func login(credentials Credentials) []string {
 	user, pass := credentials.User, credentials.Password
 	require("user", user)
 	require("password", pass)
 
-	return exec.Command("cf", "auth", user, pass)
+	return []string{"auth", user, pass}
 }
 
-// cf target
-func target(vargs Target) *exec.Cmd {
+// Target an org/space
+func target(vargs Target) []string {
 	org, space := vargs.Org, vargs.Space
 	require("org", org)
 	require("space", space)
-	return exec.Command("cf", "target", "-o", org, "-s", space)
+	return []string{"target", "-o", org, "-s", space}
 }
 
-// cf deploy
-func deploy(workspace drone.Workspace, app App, route Route, flags Flags) *exec.Cmd {
-	args := combine(
+// Push the application
+func push(workspace drone.Workspace, app App, route Route, flags Flags) []string {
+	return combine(
 		[]string{"push"},
 		app.args(),
 		route.args(),
 		flags.args(),
 	)
-
-	cmd := exec.Command("cf", args...)
-	cmd.Dir = workspace.Path
-	return cmd
 }

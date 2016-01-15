@@ -1,38 +1,57 @@
 package main
 
+import "strconv"
+
+func param(arg string, value string) []string {
+	if value == "" {
+		return nil
+	}
+	return []string{arg, value}
+}
+func arg(arg string) []string {
+	if arg == "" {
+		return nil
+	}
+	return []string{arg}
+}
+func flag(arg string, value bool) []string {
+	if value {
+		return []string{arg}
+	}
+	return nil
+}
+
 func (app *App) args() []string {
-	args := []string{}
-	if app.Name != "" {
-		return append(args, app.Name)
-	}
-	return args
+	return combine(
+		arg(app.Name),
+		param("-f", app.Manifest),
+		param("-p", app.Path),
+		param("-i", func(instances int) string {
+			if instances > 0 {
+				return strconv.Itoa(instances)
+			}
+			return ""
+		}(app.Instances)),
+		param("-k", app.Disk),
+		param("-b", app.Buildpack),
+		param("-c", app.Command),
+		param("-m", app.Memory),
+	)
 }
+
 func (flags *Flags) args() []string {
-	args := []string{}
-	if flags.NoStart {
-		args = append(args, "--no-start")
-	}
-	if flags.NoHostname {
-		args = append(args, "--no-hostname")
-	}
-	if flags.NoManifest {
-		args = append(args, "--no-manifest")
-	}
-	return args
+	return combine(
+		flag("--no-start", flags.NoStart),
+		flag("--no-hostname", flags.NoHostname),
+		flag("--no-manifest", flags.NoManifest),
+	)
 }
+
 func (route *Route) args() []string {
-	args := []string{}
-	if route.Domain != "" {
-		args = append(args, "-d", route.Domain)
-	}
-	if route.Hostname != "" {
-		args = append(args, "-n", route.Hostname)
-	}
-	if route.NoRoute {
-		args = append(args, "--no-route")
-	}
-	if route.RandomRoute {
-		args = append(args, "--random-route")
-	}
-	return args
+	return combine(
+		param("-d", route.Domain),
+		param("-n", route.Hostname),
+		flag("--no-route", route.NoRoute),
+		flag("--random-route", route.RandomRoute),
+	)
 }

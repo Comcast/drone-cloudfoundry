@@ -29,6 +29,7 @@ docker:
 	docker build --rm -t $(IMAGE) .
 
 $(EXECUTABLE): $(wildcard *.go)
+	go build -o cf github.com/cloudfoundry/cli/main
 	go build -ldflags '-s -w $(LDFLAGS)'
 
 build: $(EXECUTABLE)

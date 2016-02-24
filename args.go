@@ -44,6 +44,7 @@ func (flags *Flags) args() []string {
 		flag("--no-start", flags.NoStart),
 		flag("--no-hostname", flags.NoHostname),
 		flag("--no-manifest", flags.NoManifest),
+		flag("--skip-ssl-validation", flags.SkipSSL),
 	)
 }
 

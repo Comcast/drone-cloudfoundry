@@ -13,7 +13,6 @@ clean:
 	go clean -i ./...
 
 deps:
-	go get -d github.com/cloudfoundry/cli/main
 	go get -t ./...
 
 fmt:
@@ -26,12 +25,10 @@ test:
 	@for PKG in $(PACKAGES); do go test -cover -coverprofile $$GOPATH/src/$$PKG/coverage.out $$PKG || exit 1; done;
 
 docker:
-	GOOS=linux GOARCH=amd64 CGO_ENABLED=0 go build -o cf github.com/cloudfoundry/cli/main
 	GOOS=linux GOARCH=amd64 CGO_ENABLED=0 go build -ldflags '-s -w $(LDFLAGS)'
 	docker build --rm -t $(IMAGE) .
 
 $(EXECUTABLE): $(wildcard *.go)
-	go build -o cf github.com/cloudfoundry/cli/main
 	go build -ldflags '-s -w $(LDFLAGS)'
 
 build: $(EXECUTABLE)

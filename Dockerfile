@@ -9,6 +9,8 @@ RUN apk update && \
   apk add ca-certificates && \
   rm -rf /var/cache/apk/*
 
-ADD cf /bin/
+ENV CF_VERSION 6.19.0
+RUN wget -qO - "https://cli.run.pivotal.io/stable?release=linux64-binary&version=${CF_VERSION}" | tar -xz -C /bin/
+
 ADD drone-cloudfoundry /bin/
 ENTRYPOINT ["/bin/drone-cloudfoundry"]

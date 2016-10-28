@@ -1,0 +1,13 @@
+{
+	"comment": "",
+	"ignore": "test",
+	"package": [
+		{
+			"checksumSHA1": "nqp6XVq+E2hGI/IHcMrSYGcrvJw=",
+			"path": "github.com/urfave/cli",
+			"revision": "f614c177b70c0f0e92c368d623c8770bf337c5d6",
+			"revisionTime": "2016-10-26T04:54:02Z"
+		}
+	],
+	"rootPath": "github.com/cheslip/drone-cloudfoundry"
+}

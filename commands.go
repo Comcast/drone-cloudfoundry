@@ -1,7 +1,5 @@
 package main
 
-import "github.com/drone/drone-go/drone"
-
 // API to execute against
 func api(api API) []string {
 	uri := api.URI
@@ -27,7 +25,7 @@ func target(vargs Target) []string {
 }
 
 // Push the application
-func push(workspace drone.Workspace, app App, route Route, flags Flags) []string {
+func push(app App, route Route, flags Flags) []string {
 	return combine(
 		[]string{"push"},
 		app.args(),

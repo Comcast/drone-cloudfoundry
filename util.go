@@ -16,7 +16,7 @@ func combine(strs ...[]string) []string {
 }
 
 // run a shell command
-func run(cmd *exec.Cmd) {
+func runCmd(cmd *exec.Cmd) {
 	stdout, _ := cmd.StdoutPipe()
 	stderr, _ := cmd.StderrPipe()
 

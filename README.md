@@ -6,134 +6,34 @@
 
 Drone plugin to deploy or update a project on Cloud Foundry. For the usage information and a listing of the available options please take a look at [the docs](DOCS.md).
 
-## Binary
+## Build
 
-Build the binary using `make`:
+Build the binary with the following commands:
 
 ```
-make deps build
+go build
+go test
 ```
 
 ### Example
 
 ```sh
-./drone-cloudfoundry <<EOF
-{
-    "repo": {
-        "clone_url": "git://github.com/drone/drone",
-        "owner": "drone",
-        "name": "drone",
-        "full_name": "drone/drone"
-    },
-    "system": {
-        "link_url": "https://beta.drone.io"
-    },
-    "build": {
-        "number": 22,
-        "status": "success",
-        "started_at": 1421029603,
-        "finished_at": 1421029813,
-        "message": "Update the Readme",
-        "author": "johnsmith",
-        "author_email": "john.smith@gmail.com"
-        "event": "push",
-        "branch": "master",
-        "commit": "436b7a6e2abaddfd35740527353e78a227ddcb2c",
-        "ref": "refs/heads/master"
-    },
-    "workspace": {
-        "root": "/drone/src",
-        "path": "/drone/src/github.com/drone/drone"
-    },
-    "vargs": {
-        "api": "api.run.pivotal.io",
-        "org": "my-org",
-        "space": "dev",
-        "user": "johndoe",
-        "password": "pa55word",
-        "name": "test-cf-deploy",
-        "manifest": "manifest.yml",
-        "path": ".",
-        "command": "npm start",
-        "buildpack": "nodejs",
-        "disk": "128",
-        "memory": "64",
-        "instances": 1,
-        "hostname": "",
-        "random-route": false,
-        "domain": "apps.pivotal.io",
-        "no-route": false,
-        "skip-ssl-validation": false,
-        "no-start": false,
-        "no-hostname": false,
-        "no-manifest": false
-    }
-}
-EOF
+docker run --rm \
+    -e PLUGIN_API=<api>
+    -e PLUGIN_USER=<username>
+    -e PLUGIN_PASSWORD=<password>
+    -e PLUGIN_ORG=<org>
+    -e PLUGIN_SPACE=<space>
+    -v $(pwd):$(pwd) \
+    -w $(pwd)
+    plugins/drone-cloudfoundry
 ```
 
 ## Docker
 
-Build the container using `make`:
+Build the docker image with the following commands:
 
 ```
-make deps docker
-```
-
-### Example
-
-```sh
-docker run -i plugins/drone-cloudfoundry <<EOF
-{
-    "repo": {
-        "clone_url": "git://github.com/drone/drone",
-        "owner": "drone",
-        "name": "drone",
-        "full_name": "drone/drone"
-    },
-    "system": {
-        "link_url": "https://beta.drone.io"
-    },
-    "build": {
-        "number": 22,
-        "status": "success",
-        "started_at": 1421029603,
-        "finished_at": 1421029813,
-        "message": "Update the Readme",
-        "author": "johnsmith",
-        "author_email": "john.smith@gmail.com"
-        "event": "push",
-        "branch": "master",
-        "commit": "436b7a6e2abaddfd35740527353e78a227ddcb2c",
-        "ref": "refs/heads/master"
-    },
-    "workspace": {
-        "root": "/drone/src",
-        "path": "/drone/src/github.com/drone/drone"
-    },
-    "vargs": {
-        "api": "api.run.pivotal.io",
-        "org": "my-org",
-        "space": "dev",
-        "user": "johndoe",
-        "password": "pa55word",
-        "name": "test-cf-deploy",
-        "manifest": "manifest.yml",
-        "path": ".",
-        "command": "npm start",
-        "buildpack": "nodejs",
-        "disk": "128",
-        "memory": "64",
-        "instances": 1,
-        "hostname": "",
-        "random-route": false,
-        "domain": "apps.pivotal.io",
-        "no-route": false,
-        "skip-ssl-validation": false,
-        "no-start": false,
-        "no-hostname": false,
-        "no-manifest": false
-    }
-}
-EOF
+CGO_ENABLED=0 GOOS=linux GOARCH=amd64 go build -a -tags netgo
+docker build --rm=true -t plugins/drone-cloudfoundry .
 ```

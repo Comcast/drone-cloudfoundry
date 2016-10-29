@@ -7,9 +7,6 @@ the default configuration with the following parameters:
 deploy:
   cloudfoundry:
     api: api.run.pivotal.io
-    user: $$USER
-    password: $$PASSWORD
-    org: $$USER
     space: production
     when:
       branch: master
@@ -33,10 +30,10 @@ deploy:
 | `memory` | Memory limit | `1G` |
 | `instances` | Number of instances | `4` |
 | `hostname` | Hostname | `my-subdomain` |
-| `random-route` | Create a random route for this app | `false` |
+| `random_route` | Create a random route for this app | `false` |
 | `domain` | Domain | `example.com` |
-| `no-route` | Do not map a route to this app and remove routes from previous pushes of this app. | `false` |
-| `no-start` | Do not start an app after pushing | `false` |
-| `no-hostname` | Map the root domain to this app | `false` |
-| `no-manifest` | Ignore manifest file | `false` |
-| `skip-ssl-validation` | For login, do not validate ssl (for self-signed cert) | `false` |
+| `no_route` | Do not map a route to this app and remove routes from previous pushes of this app. | `false` |
+| `no_start` | Do not start an app after pushing | `false` |
+| `no_hostname` | Map the root domain to this app | `false` |
+| `no_manifest` | Ignore manifest file | `false` |
+| `skip_ssl` | For login, do not validate ssl (for self-signed cert) | `false` |

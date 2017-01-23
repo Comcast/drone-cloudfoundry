@@ -14,7 +14,7 @@ docker run --rm \
     -e PLUGIN_SPACE=<space> \
     -v $(pwd):$(pwd) \
     -w $(pwd) \
-    plugins/drone-cloudfoundry
+    cheslip/drone-cloudfoundry
 ```
 
 ## Docker

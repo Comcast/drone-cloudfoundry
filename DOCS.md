@@ -43,6 +43,7 @@ deploy:
 | `no_route` | Do not map a route to this app and remove routes from previous pushes of this app. | `false` |
 | `no_start` | Do not start an app after pushing | `false` |
 | `random_route` | Create a random route for this app | `false` |
+| `skip_ssl` |  Skip verification of the API endpoint. Not recommended! | `false` |
 
 ## Secrets
 

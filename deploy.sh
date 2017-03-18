@@ -25,8 +25,12 @@ do
     eval $arg=\$${arg/PLUGIN/CF}
 done
 
+# build api command
+api_args=""
+[[ -n $PLUGIN_SKIP_SSL ]] && [[ $PLUGIN_SKIP_SSL = true ]] && api_args="--skip-ssl-validation"
+
 # set cloud foundry API
-cf api $PLUGIN_API
+cf api $api_args $PLUGIN_API
 
 # login to API
 cf auth $PLUGIN_USER $PLUGIN_PASSWORD
